@@ -21,29 +21,8 @@ public class ContratAssurance {
 
     private int telephone;
 
-    public int getTelephone() {
-        return telephone;
-    }
 
-    public void setTelephone(int telephone) {
-        this.telephone = telephone;
-    }
 
-    public String getAdressemail() {
-        return adressemail;
-    }
-
-    public void setAdressemail(String adressemail) {
-        this.adressemail = adressemail;
-    }
-
-    public String getExclusion() {
-        return Exclusion;
-    }
-
-    public void setExclusion(String exclusion) {
-        Exclusion = exclusion;
-    }
 
     private String adressemail;
 
@@ -151,4 +130,30 @@ public class ContratAssurance {
     public void setNombreDeclarations(String nombreDeclarations) {
         this.nombreDeclarations = nombreDeclarations;
     }
+
+    public int getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(int telephone) {
+        this.telephone = telephone;
+    }
+
+    public String getAdressemail() {
+        return adressemail;
+    }
+    public void setAdressemail(String adressemail) {
+        this.adressemail = adressemail;
+    }
+
+    public String getExclusion() {
+        return Exclusion;
+    }
+
+    public void setExclusion(String exclusion) {
+        Exclusion = exclusion;
+    }
+
+
 }
+

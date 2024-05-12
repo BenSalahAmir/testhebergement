@@ -320,7 +320,7 @@ public class AuthController {
     user.setNumeroTelephone(contratAssurance.getTelephone());
     user.setRegion(contratAssurance.getRegion());
     //user.setRefContrat(contratAssurance.getNumeroSouscription());
-    emailServ.sendVerificationEmail(user);
+   // emailServ.sendVerificationEmail(user);
     userRepository.save(user);
 
     return ResponseEntity.ok(new MessageResponse("Utilisateur enregistré avec succès !"));

@@ -4,6 +4,8 @@ import com.bezkoder.spring.security.mongodb.models.ContratAssurance;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface ContratAssuranceRepository extends MongoRepository<ContratAssurance, String> {
 
@@ -11,4 +13,8 @@ public interface ContratAssuranceRepository extends MongoRepository<ContratAssur
     Boolean existsByAdressemail(String AdressMail);
 
     ContratAssurance getContratAssurancesByAdressemail(String AdressMail);
+
+    Optional<ContratAssurance> findByAdressemail(String adresseMail);
+
+
 }
