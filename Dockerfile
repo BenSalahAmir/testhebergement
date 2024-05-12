@@ -1,14 +1,12 @@
-# Use the official OpenJDK 17 image as a parent image
-FROM adoptopenjdk/openjdk17:alpine-jre
-
-# Set the working directory inside the container
+# Stage 1: Build the application
+FROM maven:3.8.3-openjdk-17 AS build
 WORKDIR /app
+COPY . /app/
+RUN mvn clean package
 
-# Copy the packaged Spring Boot application JAR file into the container
-COPY target/spring-boot-mongodb-login-0.0.1-SNAPSHOT.jar /app/app.jar
-
-# Expose the port that your Spring Boot application uses
+# Stage 2: Package the application
+FROM openjdk:17-alpine
+WORKDIR /app
+COPY --from=build /app/target/*.jar /app/app.jar
 EXPOSE 9098
-
-# Run the JAR file when the container launches
-CMD ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java","-jar","app.jar"]
