@@ -249,21 +249,21 @@ public class AuthController {
     if (userRepository.existsByUsername(signUpRequest.getUsername())) {
       return ResponseEntity
               .badRequest()
-              .body(new MessageResponse("Erreur : Le nom d'utilisateur est dejà pris !"));
+              .body(new MessageResponse("Erreur : Le nom d'utilisateur est deja pris !"));
     }
 
     // Check if email exists
     if (userRepository.existsByEmail(signUpRequest.getEmail())) {
       return ResponseEntity
               .badRequest()
-              .body(new MessageResponse("Erreur : L'adresse email est déjà utilisée !"));
+              .body(new MessageResponse("Erreur : L'adresse email est deja utilisée !"));
     }
 
     // Check if numeroSouscription exists
     if (!contratAssuranceRepository.existsByNumeroSouscription(signUpRequest.getRefContrat())) {
       return ResponseEntity
               .badRequest()
-              .body(new MessageResponse("Erreur : Référence de contrat invalide !"));
+              .body(new MessageResponse("Erreur : Reference de contrat invalide !"));
     }
 
     // Check if numeroSouscription exists
