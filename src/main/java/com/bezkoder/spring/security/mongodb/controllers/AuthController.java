@@ -249,7 +249,7 @@ public class AuthController {
     if (userRepository.existsByUsername(signUpRequest.getUsername())) {
       return ResponseEntity
               .badRequest()
-              .body(new MessageResponse("Erreur : Le nom d'utilisateur est déjà pris !"));
+              .body(new MessageResponse("Erreur : Le nom d'utilisateur est dejà pris !"));
     }
 
     // Check if email exists
@@ -277,7 +277,7 @@ public class AuthController {
     if (!isValidPassword(signUpRequest.getPassword())) {
       return ResponseEntity
               .badRequest()
-              .body(new MessageResponse("Erreur : Le mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un symbole et avoir une longueur entre 6 et 40 caractères."));
+              .body(new MessageResponse("Erreur : Le mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un symbole et avoir une longueur entre 6 et 40 caracteres."));
     }
 
     ContratAssurance contratAssurance = contratAssuranceRepository.getContratAssurancesByAdressemail(signUpRequest.getEmail());
@@ -320,10 +320,10 @@ public class AuthController {
     user.setNumeroTelephone(contratAssurance.getTelephone());
     user.setRegion(contratAssurance.getRegion());
     //user.setRefContrat(contratAssurance.getNumeroSouscription());
-   // emailServ.sendVerificationEmail(user);
+    emailServ.sendVerificationEmail(user);
     userRepository.save(user);
 
-    return ResponseEntity.ok(new MessageResponse("Utilisateur enregistré avec succès !"));
+    return ResponseEntity.ok(new MessageResponse("Utilisateur enregistré avec succes !"));
   }
 
   private boolean isValidPassword(String password) {
