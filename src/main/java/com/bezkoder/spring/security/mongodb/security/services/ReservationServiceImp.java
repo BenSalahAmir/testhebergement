@@ -56,7 +56,7 @@ public class ReservationServiceImp {
         Optional<User> user = userRepository.findByUsername(reservation.getUserName());
 
         if (user.isPresent()) {
-            emailService.sendReservationConfirmationMail("amir.bensalah@esprit.tn", reservation.getUserName(), reservation.getServiceName(), LocalDateTime.now());
+            emailService.sendReservationConfirmationMail("marketing@elaa-international.com", reservation.getUserName(), reservation.getServiceName(), LocalDateTime.now());
             logger.warn("send mail success");
 
         } else {

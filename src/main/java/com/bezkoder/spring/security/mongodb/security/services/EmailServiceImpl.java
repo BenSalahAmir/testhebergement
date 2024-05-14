@@ -83,7 +83,7 @@ public class EmailServiceImpl implements IUserEmailRepository {
             String htmlMsg = "<div style='font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 50px;'>" +
                     "<div style='background-color: #ffffff; padding: 40px; border-radius: 8px; max-width: 600px; margin: auto;'>" +
                     "<h1 style='color: #333333; font-size: 24px; margin-bottom: 20px;'>Confirmation de reservation</h1>" +
-                    "<p style='color: #666666; font-size: 16px; line-height: 1.5; margin-bottom: 20px;'>Une nouvelle reservation a eté effectuée par <strong>" + userName + "</strong> pour le service <strong>" + serviceName + "</strong>.</p>" +
+                    "<p style='color: #666666; font-size: 16px; line-height: 1.5; margin-bottom: 20px;'>Une nouvelle reservation a ete effectuee par <strong>" + userName + "</strong> pour le service <strong>" + serviceName + "</strong>.</p>" +
                     "<p style='color: #666666; font-size: 16px; line-height: 1.5; margin-bottom: 20px;'>Date et heure de la reservation : <strong>" + formattedReservationDateTime + "</strong></p>" +
                     "<p style='color: #666666; font-size: 16px; line-height: 1.5; margin-top: 20px;'>Veuillez verifier la plateforme pour confirmer la reservation.</p>" +
                     "</div></div>";

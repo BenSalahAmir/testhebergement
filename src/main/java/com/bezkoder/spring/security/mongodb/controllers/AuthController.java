@@ -323,7 +323,7 @@ public class AuthController {
     emailServ.sendVerificationEmail(user);
     userRepository.save(user);
 
-    return ResponseEntity.ok(new MessageResponse("Utilisateur enregistré avec succes !"));
+    return ResponseEntity.ok(new MessageResponse("Utilisateur enregistre avec succes !"));
   }
 
   private boolean isValidPassword(String password) {
