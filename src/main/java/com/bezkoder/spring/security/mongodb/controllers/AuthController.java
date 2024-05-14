@@ -392,7 +392,7 @@ public class AuthController {
       UserMail mail = new UserMail(resetPassword.getEmail(), code);
       System.out.println("le mail est" + resetPassword.getEmail());
       System.out.println("la variable mail est" + mail);
-      //emailServ.sendcodereset(mail);
+      emailServ.sendcodereset(mail);
       System.out.println("la variable User est" + user);
       user.setUserCode(code);
       userRepository.save(user);
