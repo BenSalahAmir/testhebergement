@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/contrat")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class ContrasAssuranceControlleur {
 
     @Autowired
