@@ -13,6 +13,8 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/services")
+@CrossOrigin(origins = "*")
+
 public class ServiceContratController {
 
     @Autowired
