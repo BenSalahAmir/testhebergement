@@ -29,6 +29,7 @@ public class ReservationController {
 
     @GetMapping("/getall")
     public List<Reservation> getAllReservations() {
+        System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbbb"+reservationService.getAllReservations());
         return reservationService.getAllReservations();
     }
 
