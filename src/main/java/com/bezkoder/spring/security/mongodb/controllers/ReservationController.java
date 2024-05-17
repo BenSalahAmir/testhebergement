@@ -2,6 +2,7 @@ package com.bezkoder.spring.security.mongodb.controllers;
 
 
 import com.bezkoder.spring.security.mongodb.models.Reservation;
+import com.bezkoder.spring.security.mongodb.security.services.EmailServiceImpl;
 import com.bezkoder.spring.security.mongodb.security.services.ReservationServiceImp;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ public class ReservationController {
 
     @Autowired
     private ReservationServiceImp reservationService;
+
 
     @GetMapping("/getbyusername/{username}")
     public List<Reservation> getReservationsByUsername(@PathVariable String username) {
@@ -47,6 +49,7 @@ public class ReservationController {
     public ResponseEntity<Reservation> confirmReservation(@PathVariable String id, @RequestBody String userConfirmation) {
         try {
             Reservation confirmedReservation = reservationService.confirmReservation(id, userConfirmation);
+
             return new ResponseEntity<>(confirmedReservation, HttpStatus.OK);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

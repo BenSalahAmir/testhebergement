@@ -78,6 +78,9 @@ public class ReservationServiceImp {
 
     public Reservation confirmReservation(String id, String userConfirmation) {
         Optional<Reservation> optionalReservation = reservationRepository.findById(id);
+        Optional<User> optionalUser = userRepository.findByUsername(optionalReservation.get().getUserName());
+
+
 
         if (optionalReservation.isPresent()) {
             Reservation reservation = optionalReservation.get();
@@ -102,6 +105,7 @@ public class ReservationServiceImp {
                 if (currentCount < totalCount) {
                     currentCount++; // Increment current count
                     contratAssurance.setNombreDeclarations(currentCount + "/" + totalCount);
+                    emailService.sendconfirmationtouser(optionalUser.get().getEmail(),reservation.getUserName(),reservation.getServiceName(),LocalDateTime.now());
                     contratAssuranceRepository.save(contratAssurance);
                 }
             }

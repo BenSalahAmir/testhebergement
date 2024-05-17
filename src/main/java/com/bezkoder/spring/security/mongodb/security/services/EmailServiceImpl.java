@@ -97,6 +97,37 @@ public class EmailServiceImpl implements IUserEmailRepository {
     }
 
 
+    @Override
+    public void sendconfirmationtouser(String serviceClientEmail, String userName, String serviceName, LocalDateTime reservationDateTime) {
+        try {
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+            helper.setFrom("saebizmatch@gmail.com");
+            helper.setTo(serviceClientEmail);
+            helper.setSubject("Confirmation de réservation");
+
+            // Format reservation date time
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String formattedReservationDateTime = reservationDateTime.format(formatter);
+
+            // Email body to inform the client that the reservation is confirmed
+            String htmlMsg = "<div style='font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 50px;'>" +
+                    "<div style='background-color: #ffffff; padding: 40px; border-radius: 8px; max-width: 600px; margin: auto;'>" +
+                    "<h1 style='color: #333333; font-size: 24px; margin-bottom: 20px;'>Confirmation de réservation</h1>" +
+                    "<p style='color: #666666; font-size: 16px; line-height: 1.5; margin-bottom: 20px;'>Bonjour <strong>" + userName + "</strong>,</p>" +
+                    "<p style='color: #666666; font-size: 16px; line-height: 1.5; margin-bottom: 20px;'>Votre réservation pour le service <strong>" + serviceName + "</strong> a été confirmée avec succès.</p>" +
+                    "<p style='color: #666666; font-size: 16px; line-height: 1.5; margin-bottom: 20px;'>Date et heure de la réservation : <strong>" + formattedReservationDateTime + "</strong></p>" +
+                    "<p style='color: #666666; font-size: 16px; line-height: 1.5; margin-top: 20px;'>Merci d'utiliser notre service.</p>" +
+                    "</div></div>";
+
+            message.setContent(htmlMsg, "text/html");
+
+            javaMailSender.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     @Override
