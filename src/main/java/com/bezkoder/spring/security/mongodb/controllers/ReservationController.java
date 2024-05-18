@@ -1,16 +1,17 @@
 package com.bezkoder.spring.security.mongodb.controllers;
 
 
+import com.bezkoder.spring.security.mongodb.models.ContratAssurance;
 import com.bezkoder.spring.security.mongodb.models.Reservation;
-import com.bezkoder.spring.security.mongodb.security.services.EmailServiceImpl;
+import com.bezkoder.spring.security.mongodb.repository.ContratAssuranceRepository;
 import com.bezkoder.spring.security.mongodb.security.services.ReservationServiceImp;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.validation.constraints.Null;
 import java.util.List;
 
 
@@ -22,6 +23,9 @@ public class ReservationController {
 
     @Autowired
     private ReservationServiceImp reservationService;
+
+    @Autowired
+    private ContratAssuranceRepository contratAssuranceRepository;
 
 
     @GetMapping("/getbyusername/{username}")
@@ -54,6 +58,15 @@ public class ReservationController {
         } catch (RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/nombre-declarations")
+    public ResponseEntity<String> getNombreDeclarations(@RequestParam String email) {
+        String result = reservationService.getnombredeclaration(email);
+        if ("email not found".equals(result)) {
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 

@@ -116,6 +116,14 @@ public class ReservationServiceImp {
         }
     }
 
+    public String getnombredeclaration(String email){
+        ContratAssurance contratAssurance = contratAssuranceRepository.getContratAssurancesByAdressemail(email);
+        if (contratAssurance!=null){
+            return contratAssurance.getNombreDeclarations();
+        }
+        return "email not found";
+    }
+
 
 
 

@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/contrat")
-@CrossOrigin(origins = "https://funny-fairy-17b429.netlify.app")
+@CrossOrigin(origins = "*")
 public class ContrasAssuranceControlleur {
 
     @Autowired
