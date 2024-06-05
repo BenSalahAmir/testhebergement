@@ -4,6 +4,7 @@ package com.bezkoder.spring.security.mongodb.controllers;
 import com.bezkoder.spring.security.mongodb.models.ContratAssurance;
 import com.bezkoder.spring.security.mongodb.models.Reservation;
 import com.bezkoder.spring.security.mongodb.repository.ContratAssuranceRepository;
+import com.bezkoder.spring.security.mongodb.security.services.NotificationService;
 import com.bezkoder.spring.security.mongodb.security.services.ReservationServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-import javax.validation.constraints.Null;
+
 import java.util.List;
 
 
@@ -26,6 +27,11 @@ public class ReservationController {
 
     @Autowired
     private ContratAssuranceRepository contratAssuranceRepository;
+
+    @Autowired
+    private NotificationService notificationService;
+
+
 
 
     @GetMapping("/getbyusername/{username}")
@@ -54,6 +60,9 @@ public class ReservationController {
         try {
             Reservation confirmedReservation = reservationService.confirmReservation(id, userConfirmation);
 
+
+            //notificationService.sendNotification(confirmedReservation.getUserName(), "Your reservation is confirmed");
+
             return new ResponseEntity<>(confirmedReservation, HttpStatus.OK);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -73,6 +82,4 @@ public class ReservationController {
 
 
 
-
-    // Add other endpoints as needed
 }

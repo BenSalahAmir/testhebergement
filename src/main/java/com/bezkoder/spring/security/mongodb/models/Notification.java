@@ -1,13 +1,14 @@
 package com.bezkoder.spring.security.mongodb.models;
 
 
+import com.google.cloud.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Document(collection = "notifications")
 @Data
@@ -15,17 +16,16 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 
 public class Notification {
-
     @Id
     private String id;
-
+    private String title;
     private String message;
+    private String userId;
+    private Date timestamp;
+    private boolean isRead;
 
-    private String recipient;
 
-    private boolean read;
 
-    private LocalDateTime timestamp;
 
     public String getId() {
         return id;
@@ -33,6 +33,14 @@ public class Notification {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getMessage() {
@@ -43,35 +51,28 @@ public class Notification {
         this.message = message;
     }
 
-    public String getRecipient() {
-        return recipient;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setRecipient(String recipient) {
-        this.recipient = recipient;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public boolean isRead() {
-        return read;
-    }
-
-    public void setRead(boolean read) {
-        this.read = read;
-    }
-
-    public LocalDateTime getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 
-    public Notification(String message, String recipient) {
-        this.message = message;
-        this.recipient = recipient;
-        this.read = false;
-        this.timestamp = LocalDateTime.now();
+    public boolean isRead() {
+        return isRead;
     }
-// Getters and setters
+
+    public void setRead(boolean read) {
+        isRead = read;
+    }
+// getters and setters
 }

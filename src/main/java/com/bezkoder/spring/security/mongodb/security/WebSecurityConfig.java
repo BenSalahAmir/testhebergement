@@ -39,10 +39,7 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
     return new AuthTokenFilter();
   }
 
-//  @Override
-//  public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-//    authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-//  }
+
 
   @Bean
   public DaoAuthenticationProvider authenticationProvider() {
@@ -90,6 +87,10 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
         .authorizeHttpRequests(auth ->
           auth.requestMatchers("/api/**").permitAll()
                   .requestMatchers("/api/auth/**").permitAll()
+                  .requestMatchers("/ws/**").permitAll()
+                  .requestMatchers("/app/**").permitAll()
+                  .requestMatchers("/topic/**").permitAll()
+                  .requestMatchers("/api/notifications/**").permitAll()
               .requestMatchers("/api/test/**").permitAll()
               .requestMatchers("/contrat/**").permitAll()
 

@@ -4,10 +4,14 @@ package com.bezkoder.spring.security.mongodb.security.services;
 import com.bezkoder.spring.security.mongodb.models.Notification;
 
 import com.bezkoder.spring.security.mongodb.repository.NotificationRepository;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import java.util.Date;
 import java.util.List;
+
+
 
 @Service
 public class NotificationService {
@@ -15,22 +19,39 @@ public class NotificationService {
     @Autowired
     private NotificationRepository notificationRepository;
 
-    public Notification createNotification(String message, String recipient) {
-        Notification notification = new Notification(message, recipient);
+    public List<Notification> getNotificationsForUser(String userId) {
+        return notificationRepository.findByUserId(userId);
+    }
+
+    public Notification createNotification(Notification notification) {
+        notification.setTimestamp(new Date());
+        notification.setRead(false);
         return notificationRepository.save(notification);
     }
 
-    public List<Notification> getNotificationsForRecipient(String recipient) {
-        return notificationRepository.findByRecipient(recipient);
-    }
-
-    public Notification markAsRead(String id) {
-        Notification notification = notificationRepository.findById(id).orElseThrow(() -> new RuntimeException("Notification not found"));
+    public void markAsRead(String notificationId) {
+        Notification notification = notificationRepository.findById(notificationId).orElseThrow();
         notification.setRead(true);
-        return notificationRepository.save(notification);
+        notificationRepository.save(notification);
     }
 
-    public void deleteNotification(String id) {
-        notificationRepository.deleteById(id);
+
+
+
+    public void sendNotification(String title, String body, String token) {
+        Message message = Message.builder()
+                .putData("title", title)
+                .putData("body", body)
+                .setToken(token)
+                .build();
+
+        try {
+            String response = FirebaseMessaging.getInstance().send(message);
+            System.out.println("Successfully sent message: " + response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
 }
+
