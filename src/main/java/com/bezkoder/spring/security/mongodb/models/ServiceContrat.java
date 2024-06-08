@@ -15,6 +15,7 @@ public class ServiceContrat {
     @Id
     private String serviceId;
     private String serviceName;
+    private String description;
 
 
 

@@ -84,7 +84,9 @@ public class ServiceContratServiceImpl {
         }
     }
 
-
+    public Optional<ServiceContrat> getServiceByName(String serviceName) {
+        return Optional.ofNullable(serviceRepository.findByServiceName(serviceName));
+    }
 
 
 

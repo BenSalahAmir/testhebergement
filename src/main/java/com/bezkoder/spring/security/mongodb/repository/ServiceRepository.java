@@ -11,4 +11,6 @@ public interface ServiceRepository extends MongoRepository<ServiceContrat, Strin
 
     List<ServiceContrat> findByServiceNameIn(List<String> serviceNames);
 
+    ServiceContrat findByServiceName(String serviceName);
+
 }

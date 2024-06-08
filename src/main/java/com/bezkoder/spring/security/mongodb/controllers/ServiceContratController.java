@@ -27,7 +27,7 @@ public class ServiceContratController {
         return serviceContratService.getAllServices();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/getbyid/{id}")
     public ResponseEntity<ServiceContrat> getServiceById(@PathVariable String id) {
         Optional<ServiceContrat> service = serviceContratService.getServiceById(id);
         return service.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
@@ -50,15 +50,12 @@ public class ServiceContratController {
     }
 
 
-    /*@GetMapping("/getservices/{email}")
-    public ResponseEntity<String> getServicesByEmail(@PathVariable String email) {
-        Optional<String> servicesOptional = serviceContratService.(email);
-        if (servicesOptional.isPresent()) {
-            return ResponseEntity.ok(servicesOptional.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }*/
+    @GetMapping("/getbyname/{name}")
+    public ResponseEntity<ServiceContrat> getServiceByName(@PathVariable String name) {
+        Optional<ServiceContrat> service = serviceContratService.getServiceByName(name);
+        return service.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
 
 
     @GetMapping("/test/{email}")

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.bezkoder.spring.security.mongodb.models.ContratAssurance;
+import com.bezkoder.spring.security.mongodb.models.User;
 import com.bezkoder.spring.security.mongodb.repository.ContratAssuranceRepository;
 
 import org.apache.poi.ss.usermodel.*;
@@ -27,6 +28,13 @@ public class ContratAssuranceService {
     public ContratAssuranceService(ContratAssuranceRepository contratAssuranceRepository) {
         this.contratAssuranceRepository = contratAssuranceRepository;
     }
+
+
+    public List<ContratAssurance> getContratAssurancewithCompagnieAssurance(String CompagnieAssurance){
+        return  contratAssuranceRepository.getContratAssurancesByCompagnieAssurance(CompagnieAssurance);
+    }
+
+
 
 
 

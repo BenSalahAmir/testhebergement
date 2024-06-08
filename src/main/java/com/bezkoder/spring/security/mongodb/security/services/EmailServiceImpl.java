@@ -117,8 +117,6 @@ public class EmailServiceImpl implements IUserEmailRepository {
                     "<h1 style='color: #333333; font-size: 24px; margin-bottom: 20px;'>Confirmation de réservation</h1>" +
                     "<p style='color: #666666; font-size: 16px; line-height: 1.5; margin-bottom: 20px;'>Bonjour <strong>" + userName + "</strong>,</p>" +
                     "<p style='color: #666666; font-size: 16px; line-height: 1.5; margin-bottom: 20px;'>Votre réservation pour le service <strong>" + serviceName + "</strong> a été confirmée avec succès.</p>" +
-                    "<p style='color: #666666; font-size: 16px; line-height: 1.5; margin-bottom: 20px;'>Votre réservation pour le service <strong>" + serviceName + "</strong> a été confirmée avec succès.</p>" +
-
                     "<p style='color: #666666; font-size: 16px; line-height: 1.5; margin-bottom: 20px;'>Date et heure de la réservation : <strong>" + formattedReservationDateTime + "</strong></p>" +
                     "<p style='color: #666666; font-size: 16px; line-height: 1.5; margin-top: 20px;'>Merci pour votre confiance .</p>" +
                     "</div></div>";
