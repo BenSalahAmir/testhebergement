@@ -130,6 +130,36 @@ public class EmailServiceImpl implements IUserEmailRepository {
     }
 
 
+
+
+    public void sendReviewNotification( String userName, String serviceName, String alarmCenterEmail) {
+        try {
+            // Send review notification email to the alarm center
+            MimeMessage reviewMessage = javaMailSender.createMimeMessage();
+            MimeMessageHelper reviewHelper = new MimeMessageHelper(reviewMessage, true);
+
+            reviewHelper.setFrom("saebizmatch@gmail.com");
+            reviewHelper.setTo(alarmCenterEmail);
+            reviewHelper.setSubject("Nouvelle évaluation pour le service");
+
+            // Email body to inform the alarm center that a user has made a review
+            String htmlMsg = "<div style='font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 50px;'>" +
+                    "<div style='background-color: #ffffff; padding: 40px; border-radius: 8px; max-width: 600px; margin: auto;'>" +
+                    "<h1 style='color: #333333; font-size: 24px; margin-bottom: 20px;'>Nouvelle évaluation pour le service</h1>" +
+                    "<p style='color: #666666; font-size: 16px; line-height: 1.5; margin-bottom: 20px;'>L'utilisateur <strong>" + userName + "</strong> a soumis une évaluation pour le service <strong>" + serviceName + "</strong>.</p>" +
+                    "<p style='color: #666666; font-size: 16px; line-height: 1.5; margin-top: 20px;'>Veuillez prendre les mesures nécessaires en fonction de cette évaluation.</p>" +
+                    "</div></div>";
+
+            reviewMessage.setContent(htmlMsg, "text/html");
+
+            javaMailSender.send(reviewMessage);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
     @Override
     public void sendcodereset(UserMail mail) {
         try {
