@@ -3,7 +3,6 @@ package com.bezkoder.spring.security.mongodb.controllers;
 import com.bezkoder.spring.security.mongodb.models.Notification;
 import com.bezkoder.spring.security.mongodb.security.services.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

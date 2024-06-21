@@ -56,7 +56,7 @@ public class ReservationServiceImp {
         Optional<User> user = userRepository.findByUsername(reservation.getUserName());
 
         if (user.isPresent()) {
-            emailService.sendReservationConfirmationMail("marketing@elaa-international.com", reservation.getUserName(), reservation.getServiceName(), LocalDateTime.now());
+            //emailService.sendReservationConfirmationMail("marketing@elaa-international.com", reservation.getUserName(), reservation.getServiceName(), LocalDateTime.now());
             logger.warn("send mail success");
 
         } else {
@@ -105,7 +105,7 @@ public class ReservationServiceImp {
                 if (currentCount < totalCount) {
                     currentCount++; // Increment current count
                     contratAssurance.setNombreDeclarations(currentCount + "/" + totalCount);
-                    emailService.sendconfirmationtouser(optionalUser.get().getEmail(),reservation.getUserName(),reservation.getServiceName(),LocalDateTime.now());
+                    //emailService.sendconfirmationtouser(optionalUser.get().getEmail(),reservation.getUserName(),reservation.getServiceName(),LocalDateTime.now());
                     contratAssuranceRepository.save(contratAssurance);
                 }
             }
@@ -127,6 +127,9 @@ public class ReservationServiceImp {
 
 
 
+    public long countReservations(String userName, String serviceName) {
+        return reservationRepository.countByUserNameAndServiceNameAndIsConfirmed(userName, serviceName,"Confirmed");
+    }
 
 
 

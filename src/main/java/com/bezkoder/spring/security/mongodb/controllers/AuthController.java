@@ -1,20 +1,15 @@
 package com.bezkoder.spring.security.mongodb.controllers;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
 import com.bezkoder.spring.security.mongodb.Util.UserCode;
 import com.bezkoder.spring.security.mongodb.models.*;
 import com.bezkoder.spring.security.mongodb.repository.ContratAssuranceRepository;
 import com.bezkoder.spring.security.mongodb.security.services.EmailServiceImpl;
 import com.bezkoder.spring.security.mongodb.security.services.UserService;
 import jakarta.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -404,6 +399,8 @@ public class AuthController {
     }
     return accountResponse;
   }
+
+
 
 
 

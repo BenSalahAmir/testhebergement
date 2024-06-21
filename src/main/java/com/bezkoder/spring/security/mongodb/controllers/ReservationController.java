@@ -80,6 +80,15 @@ public class ReservationController {
 
 
 
+    @GetMapping("/count/{userName}/{serviceName}")
+    public ResponseEntity<Long> countReservations(
+            @PathVariable String userName,
+            @PathVariable String serviceName) {
+        long count = reservationService.countReservations(userName, serviceName);
+        return ResponseEntity.ok(count);
+    }
+
+
 
 
 }

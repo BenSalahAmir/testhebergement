@@ -4,6 +4,7 @@ import com.bezkoder.spring.security.mongodb.models.ContratAssurance;
 import com.bezkoder.spring.security.mongodb.models.ServiceContrat;
 import com.bezkoder.spring.security.mongodb.repository.ContratAssuranceRepository;
 import com.bezkoder.spring.security.mongodb.repository.ServiceRepository;
+import com.bezkoder.spring.security.mongodb.security.services.ReservationServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,9 @@ public class ServiceContratServiceImpl {
 
 
     private final ServiceRepository serviceRepository;
+
+    @Autowired
+    private ReservationServiceImp reservationService;
 
     @Autowired
     public ServiceContratServiceImpl(ServiceRepository serviceRepository) {
@@ -67,22 +71,34 @@ public class ServiceContratServiceImpl {
             ContratAssurance contrat = contratOptional.get();
             String nombreDeclarations = contrat.getNombreDeclarations();
 
-            // Check if nombreDeclarations is equal to "3/3"
-            if ("3/3".equals(nombreDeclarations)) {
+            // Split the nombreDeclarations into parts
+            String[] parts = nombreDeclarations.split("/");
+            if (parts.length == 2 && parts[0].equals(parts[1])) {
+                // If the declaration is of the form "x/x" where x is the same on both sides
                 return Collections.emptyList();
             }
 
             String services = contrat.getServices();
             List<String> servicesList = Arrays.asList(services.split(", "));
             List<ServiceContrat> servicesObjects = serviceRepository.findByServiceNameIn(servicesList);
-            servicesObjects.forEach(service -> {
-                System.out.println("Service: " + service.getServiceName());
+
+            // Check reservation counts for each service and remove if count is 3
+            servicesObjects.removeIf(service -> {
+                long reservationCount = reservationService.countReservations(contrat.getNomAssure(), service.getServiceName());
+                if (reservationCount == 3) {
+                    System.out.println("Service: " + service.getServiceName() + " est complet");
+                    return true; // Remove the service
+                }
+                return false; // Keep the service
             });
+
             return servicesObjects;
         } else {
             return Collections.emptyList();
         }
     }
+
+
 
     public Optional<ServiceContrat> getServiceByName(String serviceName) {
         return Optional.ofNullable(serviceRepository.findByServiceName(serviceName));
