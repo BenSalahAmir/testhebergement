@@ -22,8 +22,7 @@ public class ServiceContratController {
 
     @GetMapping
     public List<ServiceContrat> getAllServices() {
-        System.out.println("aaaaaaaaaaaa "+serviceContratService.getAllServices());
-
+        System.out.println("get all service "+serviceContratService.getAllServices());
         return serviceContratService.getAllServices();
     }
 

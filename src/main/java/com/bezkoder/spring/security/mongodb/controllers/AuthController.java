@@ -70,6 +70,16 @@ public class AuthController {
 
 
 
+  @GetMapping("/getall")
+  public List<User> getalluser(){
+    return userRepository.findAll();
+  }
+
+
+
+
+
+
   @GetMapping("/user/{email}")
   public ResponseEntity<?> getUserByEmail(@PathVariable String email) {
     User user = userService.findByUserEmail(email);
@@ -333,7 +343,6 @@ public class AuthController {
   public UserAccountResponse resetPassword(@RequestBody UserNewPassword newPassword) {
     UserAccountResponse accountResponse = new UserAccountResponse();
 
-    // Validate the new password
     if (!isValidPassword(newPassword.getPassword())) {
       accountResponse.setResult(0);
       return accountResponse;
@@ -342,27 +351,15 @@ public class AuthController {
     User user = this.userService.findByUserEmail(newPassword.getEmail());
 
     if (user != null && user.getUserCode().equals(newPassword.getCode())) {
-      // If the user exists and the code matches, reset the password
       user.setPassword(passwordEncoder.encode(newPassword.getPassword()));
       userRepository.save(user);
       accountResponse.setResult(1);
     } else {
-      // If user not found or code doesn't match, set result to 0
       accountResponse.setResult(0);
     }
 
     return accountResponse;
   }
-
-
-
-
-
-
-
-
-
-
 
   @GetMapping("/activate")
   public ResponseEntity<String> activateAccount(@RequestParam String token) {
@@ -373,12 +370,6 @@ public class AuthController {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid activation token");
     }
   }
-
-
-
-
-
-
   @PostMapping("/checkEmail")
   public UserAccountResponse resetPasswordEmail(@RequestBody UserResetPassword resetPassword) {
     User user = this.userService.findByUserEmail(resetPassword.getEmail());
@@ -402,6 +393,10 @@ public class AuthController {
 
 
 
+  @GetMapping("/gat")
+  public List<User> getUsersForGATContracts() {
+    return userService.getUsersForGATContracts();
+  }
 
 
 

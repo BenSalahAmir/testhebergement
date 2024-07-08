@@ -19,4 +19,8 @@ public interface ContratAssuranceRepository extends MongoRepository<ContratAssur
     Optional<ContratAssurance> findByAdressemail(String adresseMail);
 
 
+    List<ContratAssurance> findByCompagnieAssurance(String compagnieAssurance);
+
+
+
 }

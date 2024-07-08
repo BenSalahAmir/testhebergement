@@ -29,8 +29,15 @@ public class Reservation {
     private LocalDateTime reservationDateTime;
 
     private String isConfirmed;
+    private String finMission;
 
+    public String getFinMission() {
+        return finMission;
+    }
 
+    public void setFinMission(String finMission) {
+        this.finMission = finMission;
+    }
 
     public String getId() {
         return id;

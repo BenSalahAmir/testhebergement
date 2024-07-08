@@ -14,4 +14,8 @@ public interface ReviewRepository extends MongoRepository<Review, String> {
     long countByServiceName(String serviceName);
 
 
+    List<Review> findByUserNameIn(List<String> userNames);
+
+
+
 }

@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -66,37 +67,45 @@ public class ServiceContratServiceImpl {
     }
 
     public List<ServiceContrat> getServicesByEmailAsObjects(String email) {
-        Optional<ContratAssurance> contratOptional = getContratByEmail(email);
-        if (contratOptional.isPresent()) {
-            ContratAssurance contrat = contratOptional.get();
-            String nombreDeclarations = contrat.getNombreDeclarations();
+        return getContratByEmail(email)
+                .map(this::processContrat)
+                .orElse(Collections.emptyList());
+    }
 
-            // Split the nombreDeclarations into parts
-            String[] parts = nombreDeclarations.split("/");
-            if (parts.length == 2 && parts[0].equals(parts[1])) {
-                // If the declaration is of the form "x/x" where x is the same on both sides
-                return Collections.emptyList();
-            }
-
-            String services = contrat.getServices();
-            List<String> servicesList = Arrays.asList(services.split(", "));
-            List<ServiceContrat> servicesObjects = serviceRepository.findByServiceNameIn(servicesList);
-
-            // Check reservation counts for each service and remove if count is 3
-            servicesObjects.removeIf(service -> {
-                long reservationCount = reservationService.countReservations(contrat.getNomAssure(), service.getServiceName());
-                if (reservationCount == 3) {
-                    System.out.println("Service: " + service.getServiceName() + " est complet");
-                    return true; // Remove the service
-                }
-                return false; // Keep the service
-            });
-
-            return servicesObjects;
-        } else {
+    private List<ServiceContrat> processContrat(ContratAssurance contrat) {
+        if (isDeclarationsComplete(contrat.getNombreDeclarations())) {
             return Collections.emptyList();
         }
+
+        List<String> servicesList = parseServices(contrat.getServices());
+        List<ServiceContrat> servicesObjects = serviceRepository.findByServiceNameIn(servicesList);
+        return filterCompleteServices(servicesObjects, contrat.getNomAssure());
     }
+
+    private boolean isDeclarationsComplete(String nombreDeclarations) {
+        String[] parts = nombreDeclarations.split("/");
+        return parts.length == 2 && parts[0].equals(parts[1]);
+    }
+
+    private List<String> parseServices(String services) {
+        return Arrays.asList(services.split(", "));
+    }
+
+    private List<ServiceContrat> filterCompleteServices(List<ServiceContrat> servicesObjects, String nomAssure) {
+        return servicesObjects.stream()
+                .filter(service -> !isServiceComplete(nomAssure, service.getServiceName()))
+                .collect(Collectors.toList());
+    }
+
+    private boolean isServiceComplete(String nomAssure, String serviceName) {
+        long reservationCount = reservationService.countReservations(nomAssure, serviceName);
+        if (reservationCount == 3) {
+            System.out.println("Service: " + serviceName + " est complet");
+            return true;
+        }
+        return false;
+    }
+
 
 
 

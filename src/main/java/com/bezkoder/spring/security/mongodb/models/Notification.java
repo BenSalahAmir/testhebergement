@@ -1,31 +1,18 @@
 package com.bezkoder.spring.security.mongodb.models;
 
-
-import com.google.cloud.Timestamp;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
-
 @Document(collection = "notifications")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-
 public class Notification {
+
     @Id
     private String id;
-    private String title;
-    private String message;
-    private String userId;
-    private Date timestamp;
+
+    private String username;
+    private String content;
+    private long timestamp;
     private boolean isRead;
-
-
-
 
     public String getId() {
         return id;
@@ -35,44 +22,35 @@ public class Notification {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getUsername() {
+        return username;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getMessage() {
-        return message;
+    public String getContent() {
+        return content;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public Date getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 
-    public boolean isRead() {
+    public boolean getIsRead() {
         return isRead;
     }
 
-    public void setRead(boolean read) {
-        isRead = read;
+    public void setIsRead(boolean isRead) {
+        this.isRead = isRead;
     }
-// getters and setters
 }

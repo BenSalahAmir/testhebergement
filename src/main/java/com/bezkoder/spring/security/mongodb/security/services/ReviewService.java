@@ -1,7 +1,9 @@
 package com.bezkoder.spring.security.mongodb.security.services;
 
+import com.bezkoder.spring.security.mongodb.models.ContratAssurance;
 import com.bezkoder.spring.security.mongodb.models.QuestionAnswer;
 import com.bezkoder.spring.security.mongodb.models.Review;
+import com.bezkoder.spring.security.mongodb.repository.ContratAssuranceRepository;
 import com.bezkoder.spring.security.mongodb.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,9 @@ import java.util.stream.Collectors;
 public class ReviewService {
     @Autowired
     private ReviewRepository reviewRepository;
+
+    @Autowired
+    private ContratAssuranceRepository contratAssuranceRepository;
 /*
     public List<Review> getReviewsByServiceId(String serviceId) {
         return reviewRepository.findByServiceId(serviceId);
@@ -74,6 +79,20 @@ public class ReviewService {
         return reviews.stream()
                 .flatMap(review -> review.getQuestions().stream())
                 .collect(Collectors.toList());
+    }
+
+
+    public List<Review> getReviewsForGATContracts() {
+        // Fetch contracts where compagnieAssurance is GAT
+        List<ContratAssurance> gatContracts = contratAssuranceRepository.findByCompagnieAssurance("GAT");
+
+        // Extract usernames from these contracts
+        List<String> userNames = gatContracts.stream()
+                .map(ContratAssurance::getNomAssure)
+                .collect(Collectors.toList());
+
+        // Fetch reviews with these usernames
+        return reviewRepository.findByUserNameIn(userNames);
     }
 
 }

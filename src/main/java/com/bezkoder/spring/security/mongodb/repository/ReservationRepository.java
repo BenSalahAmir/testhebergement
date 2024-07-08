@@ -15,4 +15,8 @@ public interface ReservationRepository extends MongoRepository<Reservation  , St
     long countByUserNameAndServiceNameAndIsConfirmed(String userName, String serviceName,String Isconfrmed);
 
 
+    List<Reservation> findByUserNameIn(List<String> userNames);
+
+
+
 }

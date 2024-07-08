@@ -10,6 +10,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/reviews")
+@CrossOrigin(origins = "*", maxAge = 3600)
+
 public class ReviewController {
     @Autowired
     private ReviewService reviewService;
@@ -59,5 +61,14 @@ public class ReviewController {
     public List<QuestionAnswer> getResponsesForQuestions(@PathVariable String serviceName) {
         return reviewService.getResponsesForQuestions(serviceName);
     }
+
+
+    @GetMapping("/gat")
+    public List<Review> getReviewsForGATContracts() {
+        return reviewService.getReviewsForGATContracts();
+    }
+
+
+
 
 }

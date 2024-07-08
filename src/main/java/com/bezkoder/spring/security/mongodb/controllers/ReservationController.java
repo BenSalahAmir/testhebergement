@@ -1,10 +1,8 @@
 package com.bezkoder.spring.security.mongodb.controllers;
 
 
-import com.bezkoder.spring.security.mongodb.models.ContratAssurance;
 import com.bezkoder.spring.security.mongodb.models.Reservation;
 import com.bezkoder.spring.security.mongodb.repository.ContratAssuranceRepository;
-import com.bezkoder.spring.security.mongodb.security.services.NotificationService;
 import com.bezkoder.spring.security.mongodb.security.services.ReservationServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,8 +26,7 @@ public class ReservationController {
     @Autowired
     private ContratAssuranceRepository contratAssuranceRepository;
 
-    @Autowired
-    private NotificationService notificationService;
+
 
 
 
@@ -61,9 +58,19 @@ public class ReservationController {
             Reservation confirmedReservation = reservationService.confirmReservation(id, userConfirmation);
 
 
-            //notificationService.sendNotification(confirmedReservation.getUserName(), "Your reservation is confirmed");
 
             return new ResponseEntity<>(confirmedReservation, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+    @PostMapping("/finMission/{id}")
+    public ResponseEntity<Reservation> FinMissionReservation(@PathVariable String id) {
+        try {
+            Reservation FinMissionReservation = reservationService.finMissionReservation(id);
+            return new ResponseEntity<>(FinMissionReservation, HttpStatus.OK);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -86,6 +93,12 @@ public class ReservationController {
             @PathVariable String serviceName) {
         long count = reservationService.countReservations(userName, serviceName);
         return ResponseEntity.ok(count);
+    }
+
+
+    @GetMapping("/gat")
+    public List<Reservation> getReservationsForGATContracts() {
+        return reservationService.getReservationsForGATContracts();
     }
 
 

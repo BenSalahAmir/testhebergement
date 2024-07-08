@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,7 @@ import com.twilio.Twilio;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -38,6 +40,10 @@ public class ReservationServiceImp {
 
     @Autowired
     private ReservationRepository reservationRepository;
+
+
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
     Logger logger = LoggerFactory.getLogger(getClass());
 
 
@@ -52,6 +58,7 @@ public class ReservationServiceImp {
     public Reservation createReservation(Reservation reservation) {
         reservation.setReservationDateTime(LocalDateTime.now());
         reservation.setIsConfirmed("Not Confirmed");
+        reservation.setFinMission("Not Done");
 
         Optional<User> user = userRepository.findByUsername(reservation.getUserName());
 
@@ -86,8 +93,8 @@ public class ReservationServiceImp {
             Reservation reservation = optionalReservation.get();
             reservation.setIsConfirmed("Confirmed");
             reservation.setUserConfirmation(userConfirmation);
-            //SendSms("29603424","confirmation de reservation");
 
+            sendConfirmationNotification(reservation.getUserName(), "Votre réservation pour le service " + reservation.getServiceName() + " a été confirmée");
             reservationRepository.save(reservation);
 
             Optional<User> user = userRepository.findByUsername(reservation.getUserName());
@@ -125,11 +132,47 @@ public class ReservationServiceImp {
     }
 
 
+    private void sendConfirmationNotification(String username, String message) {
+        messagingTemplate.convertAndSendToUser(username, "/queue/notifications", message);
+    }
+
+
 
 
     public long countReservations(String userName, String serviceName) {
         return reservationRepository.countByUserNameAndServiceNameAndIsConfirmed(userName, serviceName,"Confirmed");
     }
+
+
+
+    public Reservation finMissionReservation (String id) {
+        Optional<Reservation> optionalReservation = reservationRepository.findById(id);
+        if (optionalReservation.isPresent()) {
+            Reservation reservation = optionalReservation.get();
+            reservation.setFinMission("Done");
+            reservationRepository.save(reservation);
+            return reservation;
+        } else {
+            throw new RuntimeException("Reservation not found with id: " + id);
+        }
+    }
+
+
+    public List<Reservation> getReservationsForGATContracts() {
+        // Fetch contracts where compagnieAssurance is GAT
+        List<ContratAssurance> gatContracts = contratAssuranceRepository.findByCompagnieAssurance("GAT");
+
+        // Extract usernames from these contracts
+        List<String> userNames = gatContracts.stream()
+                .map(ContratAssurance::getNomAssure)
+                .collect(Collectors.toList());
+
+        // Fetch reservations with these usernames
+        return reservationRepository.findByUserNameIn(userNames);
+    }
+
+
+
 
 
 
